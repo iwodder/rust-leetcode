@@ -3,14 +3,18 @@ pub fn longest_palindrome(s: String) -> String {
   let mut v = s.chars().collect::<Vec<char>>();
   let mut first_pos = 0;
   let mut second_pos = 1;
-  while first_pos < (v.len() - 1) {
-    while second_pos < (v.len() - 1) {
-      if is_palindrome(&v[first_pos..second_pos]) {
-        if v[first_pos..second_pos].len() > longest.len() {
-          longest = v[first_pos..second_pos].iter().collect::<String>();
+  while first_pos < v.len() {
+    if (v.len() - first_pos) > longest.len() {
+      while second_pos < v.len() + 1 {
+        if is_palindrome(&v[first_pos..second_pos]) {
+          if v[first_pos..second_pos].len() > longest.len() {
+            longest = v[first_pos..second_pos].iter().collect::<String>();
+          }
         }
+        second_pos = second_pos + 1;
       }
-      second_pos = second_pos + 1;
+    } else {
+      break;
     }
     first_pos = first_pos + 1;
     second_pos = first_pos + 1;
@@ -22,7 +26,7 @@ pub fn longest_palindrome(s: String) -> String {
 fn is_palindrome(v: &[char]) -> bool {
   let mut i = 0;
   let mut j = v.len() - 1;
-  while i < (v.len() - 1) && j >= 0{
+  while i < j{
     if v[i] != v[j] {
       return false
     }
@@ -40,17 +44,17 @@ mod test {
 
   #[test]
   fn test_1() {
-    assert_eq!("bab", longest_palindrome(String::from("babad")));
+    assert_eq!("baaaaaaab", longest_palindrome(String::from("abcbabaaaaaaab")));
   }
 
   #[test]
   fn test_2() {
-    assert_eq!("cbbd", longest_palindrome(String::from("bb")));
+    assert_eq!("bbb", longest_palindrome(String::from("cbbb")));
   }
 
   #[test]
   fn test_is_palindrome_1() {
-    let c = ['b','b','b'];
+    let c = ['b','b'];
     assert!(is_palindrome(&c));
   }
 
