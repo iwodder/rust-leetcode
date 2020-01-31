@@ -136,7 +136,6 @@ mod tests {
     let board = vec![v1, v2, v3];
     assert!(!check_squares(&board, 0, 0))
   }
-
   #[test]
   fn test_5() {
     let v1 = vec!['.','.','.','.','5','.','.','1','.'];
