@@ -1,5 +1,5 @@
 pub fn check_possibility(nums: Vec<i32>) -> bool {
-  if nums.len() == 0 {
+  if nums.len() < 3 { //easy cases first, if len is less than 3 we can switch one value to be increasing
     return true;
   }
   let mut cnt = 0;
