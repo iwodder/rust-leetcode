@@ -1,17 +1,18 @@
 use std::collections::HashMap;
+use std::collections::HashSet;
 
 pub fn find_judge(n: i32, trust: Vec<Vec<i32>>) -> i32 {
   if n == 1 { return 1; }
-  let mut trust_map:HashMap<i32, Vec<i32>> = HashMap::new();
-  for x in 1..=n {trust_map.insert(x, Vec::new());}
+  let mut trust_map:HashMap<i32, HashSet<i32>> = HashMap::new();
+  for x in 1..=n {trust_map.insert(x, HashSet::new());}
   trust.iter().for_each(|pair|{
-      trust_map.get_mut(&pair[0]).unwrap().push(pair[1]);
+      trust_map.get_mut(&pair[0]).unwrap().insert(pair[1]);
   });
   let mut person = -1;
-  for (k,v) in trust_map {
-    if v.len() == 0 {
+  for (k,v) in &trust_map {
+    if v.len() == 0 && all_trust(*k, &trust_map){
       if person == -1 {
-        person = k;
+        person = *k;
       } else {
         person = -1;
         break;
@@ -19,6 +20,18 @@ pub fn find_judge(n: i32, trust: Vec<Vec<i32>>) -> i32 {
     }
   }
   person
+}
+
+fn all_trust(person: i32, trust_map: &HashMap<i32, HashSet<i32>>) -> bool {
+  let mut trust = true;
+  for (k, v) in trust_map {
+    if *k == person { continue; }
+    if !v.contains(&person) {
+      trust = false;
+      break;
+    }
+  }
+  trust
 }
 
 #[cfg(test)]
